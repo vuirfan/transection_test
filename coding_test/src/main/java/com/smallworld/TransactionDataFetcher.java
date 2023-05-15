@@ -41,7 +41,7 @@ public class TransactionDataFetcher{
 	public double getTotalTransactionAmount() {
 		double sum = 0;
 		try {
-			sum = transectionList.stream().mapToDouble(Transaction::getAmount).sum();
+			sum = transectionListUnique.stream().mapToDouble(Transaction::getAmount).sum();
 			logger.info("getTotalTransactionAmount " + sum);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
