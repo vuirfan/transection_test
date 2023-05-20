@@ -41,7 +41,7 @@ public class TransactionDataFetcher{
 	public double getTotalTransactionAmount() {
 		double sum = 0;
 		try {
-			sum = transectionListUnique.stream().mapToDouble(Transaction::getAmount).sum();
+			sum = transectionList.stream().mapToDouble(Transaction::getAmount).sum();
 			logger.info("getTotalTransactionAmount " + sum);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -92,7 +92,7 @@ public class TransactionDataFetcher{
 			List<String> senderNames = transectionListUnique.stream().map(n -> n.getBeneficiaryFullName()).distinct()
 					.collect(Collectors.toList());
 			count = senderNames.size();
-			System.out.println("countUniqueClients " + count);
+			logger.info("countUniqueClients " + count);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UnsupportedOperationException();
@@ -108,7 +108,7 @@ public class TransactionDataFetcher{
 		long count = 0;
 		try {
 			count = transectionList.stream().filter(n -> !n.getIssueSolved()).count();
-			System.out.println("hasOpenComplianceIssues " + (count > 0));
+			logger.info("hasOpenComplianceIssues " + (count > 0));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UnsupportedOperationException();
@@ -124,7 +124,7 @@ public class TransactionDataFetcher{
 		try {
 			transectionList.forEach(t -> allTransections.put(t.getBeneficiaryFullName(), t));
 
-			System.out.println("getTransactionsByBeneficiaryName " + allTransections);
+			logger.info("getTransactionsByBeneficiaryName " + allTransections);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UnsupportedOperationException();
@@ -140,7 +140,7 @@ public class TransactionDataFetcher{
 		try {
 			unsolvedIssueIds = transectionList.stream().filter(n -> !n.getIssueSolved()).map(t -> t.getIssueId())
 					.collect(Collectors.toSet());
-			System.out.println("getUnsolvedIssueIds " + (unsolvedIssueIds));
+			logger.info("getUnsolvedIssueIds " + (unsolvedIssueIds));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UnsupportedOperationException();
@@ -156,7 +156,7 @@ public class TransactionDataFetcher{
 		try {
 			allSolvedIssueMessages = transectionList.stream().filter(n -> n.getIssueSolved())
 					.map(t -> t.getIssueMessage()).collect(Collectors.toList());
-			System.out.println("getAllSolvedIssueMessages " + (allSolvedIssueMessages));
+			logger.info("getAllSolvedIssueMessages " + (allSolvedIssueMessages));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UnsupportedOperationException();
@@ -175,8 +175,8 @@ public class TransactionDataFetcher{
 					.sorted(Comparator.comparing(Transaction::getAmount).reversed()).limit(3)
 					.collect(Collectors.toList());
 
-			System.out.println("------------------------------");
-			System.out.println("getTop3TransactionsByAmount ");
+			logger.info("------------------------------");
+			logger.info("getTop3TransactionsByAmount ");
 			
 			top3TransactionsByAmount.forEach(e-> System.out.println(e.getAmount()));
 			
@@ -204,8 +204,8 @@ public class TransactionDataFetcher{
 		      //.forEach(e -> System.out.println(e.getKey() + ":" + e.getValue()));
 	            
 			topSender= senders.entrySet().stream().max((e1,e2) -> e1.getValue()> e2.getValue()?1:-1);
-			System.out.println("------------------------------");
-			System.out.println("getTopSender "+topSender);
+			logger.info("------------------------------");
+			logger.info("getTopSender "+topSender);
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -215,7 +215,7 @@ public class TransactionDataFetcher{
 	}
 
 	public void populateObjectFromJson() {
-		String pathFile = "D:\\Tools\\demoworkspace\\coding_test\\coding_test\\transactions.json";
+		String pathFile = "transactions.json";
 		Gson gson = new Gson();
 		Set<Integer> isAdded = new HashSet<>();
 		transectionListUnique = new ArrayList<>();
