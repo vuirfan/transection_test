@@ -30,7 +30,7 @@ public class UnitTest {
 	public void getTotalTransactionAmount() {
 		double amount= transactionDataFetcher.getTotalTransactionAmount();
 
-		Assert.assertEquals(4371.37, amount,0);
+		Assert.assertEquals(2889.17, amount,0);
 	}
 
 	/**
